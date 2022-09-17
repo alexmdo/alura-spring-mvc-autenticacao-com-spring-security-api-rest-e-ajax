@@ -12,5 +12,7 @@ import br.com.alura.mvc.mudi.model.StatusPedido;
 public interface PedidoRepository extends JpaRepository<Pedido, Long> {
 
 	List<Pedido> findByStatus(StatusPedido aguardando);
+
+	List<Pedido> findByUserUsername(String username);
 	
 }

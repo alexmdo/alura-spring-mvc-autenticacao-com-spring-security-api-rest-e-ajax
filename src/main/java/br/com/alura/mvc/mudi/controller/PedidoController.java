@@ -2,7 +2,8 @@ package br.com.alura.mvc.mudi.controller;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import br.com.alura.mvc.mudi.repository.UserRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,10 +18,16 @@ import br.com.alura.mvc.mudi.repository.PedidoRepository;
 @RequestMapping("pedido")
 public class PedidoController {
 	
-	@Autowired
-	private PedidoRepository pedidoRepository;
+	private final PedidoRepository pedidoRepository;
 
-	@GetMapping("formulario") 
+	private final UserRepository userRepository;
+
+	public PedidoController(PedidoRepository pedidoRepository, UserRepository userRepository) {
+		this.pedidoRepository = pedidoRepository;
+		this.userRepository = userRepository;
+	}
+
+	@GetMapping("formulario")
 	public String formulario(RequisicaoNovoPedido requisicao) {
 		return "pedido/formulario";
 	}
@@ -32,6 +39,7 @@ public class PedidoController {
 		}
 		
 		Pedido pedido = requisicao.toPedido();
+		pedido.setUser(userRepository.findUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
 		pedidoRepository.save(pedido);
 		
 		return "redirect:/home";

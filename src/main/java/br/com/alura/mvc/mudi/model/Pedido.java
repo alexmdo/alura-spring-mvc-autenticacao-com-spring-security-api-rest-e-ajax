@@ -3,12 +3,7 @@ package br.com.alura.mvc.mudi.model;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Pedido {
@@ -19,12 +14,27 @@ public class Pedido {
 	private String nomeProduto;
 	private BigDecimal valorNegociado;
 	private LocalDate dataDaEntrega;
+	@Column(length = 1000)
 	private String urlProduto;
+	@Column(length = 1000)
 	private String urlImagem;
+	@Column(length = 4000)
 	private String descricao;
 	
 	@Enumerated(EnumType.STRING)
 	private StatusPedido status;
+
+	@ManyToOne
+	@JoinColumn(name = "user_username")
+	private User user;
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 
 	public String getNomeProduto() {
 		return nomeProduto;
