@@ -18,24 +18,6 @@ services:
       MYSQL_DATABASE: mudi
       MYSQL_USER: root
       MYSQL_PASSWORD: root  
-    volumes:
-      - ${PWD}/mariadb:/var/lib/mysql
     ports:
-      - "3306:3306"
-    networks:
-      - backend
-
-  adminer:
-    image: adminer
-    container_name: mudi_adminer
-    restart: always
-    ports:
-      - 8081:8080
-    networks:
-      - backend
-
-networks:     
-  backend:
-    driver: bridge
-    name: mudi_network
+      - 3306:3306
     
